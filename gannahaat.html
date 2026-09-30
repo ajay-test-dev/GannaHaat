@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>गन्नाHaat — ग्राम पंचायत गन्ना नीलामी</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-deep:#1F3D28;
+    --green-mid:#3F6B3F;
+    --green-soft:#EAF0E6;
+    --gold:#C98A2C;
+    --gold-light:#F0D9A6;
+    --brown:#6B3F1D;
+    --parchment:#F7F2E3;
+    --paper:#FFFDF8;
+    --ink:#241C13;
+    --ink-soft:#5E5344;
+    --line:#E0D6BE;
+    --red:#A83232;
+    --red-soft:#F5E4E1;
+    --radius:3px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--parchment);
+    color:var(--ink);
+    font-family:'Hind',sans-serif;
+    font-size:16.5px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4,.font-head{font-family:'Hind',sans-serif;color:var(--ink);margin:0;font-weight:700;}
+  p{margin:0 0 1em 0;}
+  a{color:inherit;}
+  button{font-family:inherit;cursor:pointer;}
+  .view{display:none;}
+  .view.active{display:block;}
+  ::selection{background:var(--gold-light);}
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:.5em;
+    padding:.8em 1.5em;border-radius:var(--radius);border:1px solid transparent;
+    font-size:1rem;font-weight:600;font-family:'Hind',sans-serif;
+    transition:background .15s ease, border-color .15s ease, transform .1s ease;
+    white-space:nowrap;
+  }
+  .btn:active{transform:translateY(1px);}
+  .btn-primary{background:var(--green-deep);color:var(--paper);}
+  .btn-primary:hover{background:#173420;}
+  .btn-gold{background:var(--gold);color:#2A1C05;}
+  .btn-gold:hover{background:#B67B22;}
+  .btn-ghost{background:transparent;color:var(--green-deep);border-color:var(--green-deep);}
+  .btn-ghost:hover{background:var(--green-soft);}
+  .btn-ghost-light{background:transparent;color:var(--paper);border-color:rgba(255,255,255,.5);}
+  .btn-ghost-light:hover{background:rgba(255,255,255,.08);}
+  .btn-danger{background:transparent;color:var(--red);border-color:var(--red);}
+  .btn-danger:hover{background:var(--red-soft);}
+  .btn-sm{padding:.5em 1em;font-size:.86rem;}
+  .btn-block{width:100%;}
+  .btn:disabled{opacity:.45;cursor:not-allowed;}
+
+  /* ---------- Badges ---------- */
+  .badge{display:inline-block;padding:.3em .8em;border-radius:20px;font-size:.78rem;font-weight:600;letter-spacing:.01em;}
+  .badge-green{background:var(--green-soft);color:var(--green-deep);}
+  .badge-gold{background:var(--gold-light);color:#5A3C0A;}
+  .badge-red{background:var(--red-soft);color:var(--red);}
+  .badge-grey{background:#EAE5D8;color:var(--ink-soft);}
+
+  /* ================= LANDING ================= */
+  .top-nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:20px 6vw;background:var(--parchment);flex-wrap:wrap;gap:1em;
+  }
+  .brand{display:flex;align-items:center;gap:.6em;}
+  .brand-mark{width:38px;height:38px;flex:none;}
+  .brand-name{font-family:'Hind',sans-serif;font-weight:700;font-size:1.35rem;color:var(--green-deep);}
+  .brand-sub{font-size:.75rem;color:var(--ink-soft);letter-spacing:.01em;margin-top:-1px;}
+  .nav-links{display:flex;gap:2em;font-size:.95rem;font-weight:500;}
+  .nav-links a{text-decoration:none;color:var(--ink-soft);}
+  .nav-links a:hover{color:var(--green-deep);}
+  .nav-right{display:flex;align-items:center;gap:1em;}
+
+  .hero{
+    display:flex;align-items:center;gap:4vw;padding:3vw 6vw 5vw;
+  }
+  .hero-copy{flex:1.1;}
+  .hero-tag{display:inline-block;font-size:.85rem;color:var(--brown);background:var(--gold-light);padding:.4em 1em;border-radius:20px;margin-bottom:1.2em;font-weight:600;}
+  .hero h1{font-size:2.7rem;line-height:1.2;font-weight:700;max-width:12em;}
+  .hero p.lede{font-size:1.15rem;color:var(--ink-soft);max-width:34em;margin:1.1em 0 1.7em;}
+  .hero-ctas{display:flex;gap:1em;flex-wrap:wrap;}
+  .hero-art{flex:1;display:flex;justify-content:center;}
+
+  .locale-strip{
+    display:flex;gap:2.5em;flex-wrap:wrap;margin-top:2.4em;padding-top:1.6em;border-top:1px solid var(--line);max-width:36em;
+  }
+  .locale-strip div{font-size:.86rem;color:var(--ink-soft);}
+  .locale-strip strong{display:block;font-family:'Hind',sans-serif;font-size:1.4rem;color:var(--green-deep);font-weight:700;}
+
+  section.band{padding:4vw 6vw;}
+  .band-title{font-size:2rem;max-width:14em;margin-bottom:.4em;}
+  .band-sub{color:var(--ink-soft);max-width:34em;margin-bottom:2.4em;font-size:1.05rem;}
+
+  .steps{display:flex;gap:0;position:relative;}
+  .step{flex:1;position:relative;padding:0 1.6em 0 0;}
+  .step:not(:last-child)::after{
+    content:'';position:absolute;top:22px;left:calc(100% - 1.6em);width:calc(1.6em);height:1px;background:var(--line);
+  }
+  .step-num{
+    width:46px;height:46px;border-radius:50%;background:var(--green-deep);color:var(--paper);
+    display:flex;align-items:center;justify-content:center;font-family:'Hind',sans-serif;font-weight:700;font-size:1.15rem;
+    margin-bottom:1em;
+  }
+  .step h4{font-size:1.12rem;margin-bottom:.4em;}
+  .step p{color:var(--ink-soft);font-size:.92rem;margin:0;}
+
+  .cod-band{
+    background:var(--green-deep);color:var(--paper);border-radius:var(--radius);
+    padding:2.6em 3em;display:flex;align-items:center;gap:2.5em;justify-content:space-between;flex-wrap:wrap;
+  }
+  .cod-band h3{color:var(--paper);font-size:1.55rem;max-width:16em;}
+  .cod-band p{color:#CFE0CF;max-width:30em;margin-top:.6em;font-size:1.02rem;}
+  .cod-pill{background:var(--gold);color:#2A1C05;font-weight:700;padding:.9em 1.5em;border-radius:var(--radius);font-family:'Hind',sans-serif;font-size:1.1rem;white-space:nowrap;}
+
+  .pilot-note{
+    display:flex;gap:2em;align-items:flex-start;background:var(--paper);border:1px solid var(--line);
+    border-left:4px solid var(--gold);padding:2em 2.4em;border-radius:var(--radius);
+  }
+  .pilot-note h4{font-size:1.15rem;margin-bottom:.5em;}
+  .pilot-note p{color:var(--ink-soft);margin:0;font-size:.98rem;}
+
+  footer{padding:3em 6vw 2.5em;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:1.5em;}
+  footer .f-col{font-size:.9rem;color:var(--ink-soft);}
+  footer .f-col h5{font-family:'Hind',sans-serif;color:var(--ink);font-size:1rem;margin-bottom:.6em;}
+
+  /* ================= LOGIN ================= */
+  .auth-wrap{
+    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:4vw 5vw;
+  }
+  .auth-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);width:100%;max-width:480px;overflow:hidden;}
+  .role-tabs{display:flex;}
+  .role-tab{flex:1;padding:1.2em .5em;text-align:center;font-weight:600;font-size:.92rem;color:var(--ink-soft);background:var(--green-soft);border:none;border-bottom:3px solid transparent;}
+  .role-tab.active{background:var(--paper);color:var(--green-deep);border-bottom-color:var(--gold);}
+  .auth-body{padding:2.2em 2.4em 2.4em;}
+  .auth-body h3{font-size:1.4rem;margin-bottom:.25em;}
+  .auth-body .auth-hint{color:var(--ink-soft);font-size:.92rem;margin-bottom:1.6em;}
+  .field{margin-bottom:1.2em;}
+  .field label{display:block;font-size:.86rem;font-weight:600;color:var(--ink);margin-bottom:.4em;}
+  .field input,.field select,.field textarea{
+    width:100%;padding:.85em .9em;border:1px solid var(--line);border-radius:var(--radius);
+    font-family:'Hind',sans-serif;font-size:1rem;background:var(--paper);color:var(--ink);
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:var(--gold);}
+  .field-row{display:flex;gap:1em;}
+  .field-row .field{flex:1;}
+  .auth-toggle{text-align:center;font-size:.92rem;color:var(--ink-soft);margin-top:1.2em;}
+  .auth-toggle button{background:none;border:none;color:var(--green-deep);font-weight:600;text-decoration:underline;padding:0;font-size:.92rem;}
+  .admin-note{background:var(--green-soft);color:var(--green-deep);border-radius:var(--radius);padding:1em 1.2em;font-size:.88rem;margin-bottom:1.4em;}
+  .back-link{display:inline-block;margin-bottom:1.4em;font-size:.92rem;color:var(--ink-soft);text-decoration:none;}
+
+  /* ================= DASHBOARD SHELL ================= */
+  .dash-shell{display:flex;min-height:100vh;}
+  .sidebar{
+    width:240px;flex:none;background:var(--green-deep);color:var(--paper);
+    display:flex;flex-direction:column;padding:1.6em 1.2em;
+  }
+  .sidebar .brand-name{color:var(--paper);}
+  .sidebar .brand-sub{color:#B9CBB9;}
+  .side-nav{margin-top:2.4em;display:flex;flex-direction:column;gap:.25em;flex:1;}
+  .side-nav button{
+    text-align:left;background:none;border:none;color:#D6E2D6;padding:.85em 1em;border-radius:var(--radius);
+    font-size:.95rem;font-weight:500;display:flex;align-items:center;gap:.7em;
+  }
+  .side-nav button:hover{background:rgba(255,255,255,.06);}
+  .side-nav button.active{background:rgba(255,255,255,.12);color:var(--paper);font-weight:600;}
+  .side-nav .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);opacity:0;flex:none;}
+  .side-nav button.active .dot{opacity:1;}
+  .side-foot{border-top:1px solid rgba(255,255,255,.15);padding-top:1em;margin-top:1em;}
+
+  .dash-main{flex:1;min-width:0;}
+  .dash-header{
+    display:flex;align-items:center;justify-content:space-between;padding:1.6em 2.4em;
+    border-bottom:1px solid var(--line);background:var(--paper);flex-wrap:wrap;gap:1em;
+  }
+  .dash-header h2{font-size:1.4rem;}
+  .dash-header .sub{color:var(--ink-soft);font-size:.9rem;margin-top:.2em;}
+  .user-chip{display:flex;align-items:center;gap:.7em;font-size:.9rem;}
+  .user-avatar{width:38px;height:38px;border-radius:50%;background:var(--gold-light);color:#5A3C0A;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'Hind',sans-serif;flex:none;font-size:1.1rem;}
+  .dash-content{padding:2.2em 2.4em 4em;}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+
+  /* ---------- Stat cards ---------- */
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1em;margin-bottom:2.2em;}
+  .stat-card{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--green-mid);border-radius:var(--radius);padding:1.4em 1.5em;}
+  .stat-card.c-gold{border-left-color:var(--gold);}
+  .stat-card.c-brown{border-left-color:var(--brown);}
+  .stat-card.c-red{border-left-color:var(--red);}
+  .stat-card .label{font-size:.84rem;color:var(--ink-soft);font-weight:500;}
+  .stat-card .value{font-family:'Hind',sans-serif;font-size:1.85rem;font-weight:700;margin-top:.25em;}
+
+  .panel-block{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:1.8em 2em;margin-bottom:1.6em;}
+  .panel-block h3{font-size:1.2rem;margin-bottom:.3em;}
+  .panel-block .panel-sub{color:var(--ink-soft);font-size:.92rem;margin-bottom:1.4em;}
+  .block-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.4em;flex-wrap:wrap;gap:.8em;}
+  .block-head h3{margin-bottom:0;}
+
+  .activity-list{list-style:none;margin:0;padding:0;}
+  .activity-list li{padding:.75em 0;border-bottom:1px solid var(--line);font-size:.92rem;display:flex;justify-content:space-between;gap:1em;flex-wrap:wrap;}
+  .activity-list li:last-child{border-bottom:none;}
+  .activity-list .a-time{color:var(--ink-soft);font-size:.82rem;white-space:nowrap;}
+
+  /* ---------- Tables ---------- */
+  .table-wrap{overflow-x:auto;}
+  table.data{width:100%;border-collapse:collapse;font-size:.92rem;}
+  table.data th{text-align:left;padding:.75em .8em;color:var(--ink-soft);font-weight:600;font-size:.8rem;border-bottom:1px solid var(--line);white-space:nowrap;}
+  table.data td{padding:.9em .8em;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap;}
+  table.data tr:last-child td{border-bottom:none;}
+  table.data td.wrap{white-space:normal;}
+
+  /* ---------- Listing / bid cards ---------- */
+  .listing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.2em;}
+  .listing-card{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:var(--radius);padding:1.5em 1.6em;}
+  .listing-card .lc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5em;}
+  .listing-card h4{font-size:1.1rem;}
+  .listing-card .lc-village{color:var(--ink-soft);font-size:.86rem;margin-bottom:1em;}
+  .lc-row{display:flex;justify-content:space-between;font-size:.9rem;padding:.4em 0;border-top:1px dashed var(--line);}
+  .lc-row span:first-child{color:var(--ink-soft);}
+  .lc-row .hi{color:var(--brown);font-weight:700;}
+  .lc-actions{margin-top:1.2em;}
+  .bid-form{margin-top:1em;padding-top:1em;border-top:1px solid var(--line);display:none;}
+  .bid-form.open{display:block;}
+
+  .order-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:1.6em 1.8em;margin-bottom:1.1em;}
+  .order-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1em;margin-bottom:1.2em;}
+  .order-top h4{font-size:1.08rem;}
+  .order-meta{color:var(--ink-soft);font-size:.88rem;margin-top:.2em;}
+  .stepper{display:flex;align-items:center;gap:.5em;margin:1em 0 1.2em;flex-wrap:wrap;}
+  .step-pt{display:flex;align-items:center;gap:.6em;font-size:.86rem;color:var(--ink-soft);}
+  .step-pt .pt-dot{width:22px;height:22px;border-radius:50%;background:#EAE5D8;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:var(--ink-soft);}
+  .step-pt.done .pt-dot{background:var(--green-mid);color:#fff;}
+  .step-pt.done{color:var(--green-deep);font-weight:600;}
+  .step-line{flex:1;height:1px;background:var(--line);max-width:60px;}
+
+  .empty-state{text-align:center;padding:3em 1em;color:var(--ink-soft);}
+  .empty-state .es-icon{font-size:2.2rem;margin-bottom:.4em;}
+  .empty-state h4{color:var(--ink);margin-bottom:.3em;}
+
+  .toast{
+    position:fixed;bottom:1.6em;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--green-deep);color:var(--paper);padding:1em 1.7em;border-radius:var(--radius);
+    font-size:.94rem;font-weight:500;opacity:0;transition:opacity .25s ease, transform .25s ease;
+    z-index:999;box-shadow:0 6px 20px rgba(0,0,0,.18);max-width:90vw;text-align:center;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  .cod-tag{display:inline-flex;align-items:center;gap:.4em;font-size:.8rem;font-weight:600;color:var(--brown);background:var(--gold-light);padding:.35em .8em;border-radius:20px;}
+
+  @media (max-width:900px){
+    .hero{flex-direction:column;}
+    .hero h1{font-size:2.1rem;max-width:none;}
+    .hero-art{display:none;}
+    .steps{flex-direction:column;gap:1.6em;}
+    .step::after{display:none;}
+    .stat-grid{grid-template-columns:repeat(2,1fr);}
+    .dash-shell{flex-direction:column;}
+    .sidebar{width:100%;flex-direction:row;align-items:center;padding:1em 1.2em;overflow-x:auto;}
+    .side-nav{flex-direction:row;margin-top:0;margin-left:1.6em;}
+    .side-foot{display:none;}
+    .dash-content{padding:1.6em 1.2em 3em;}
+    .dash-header{padding:1.2em 1.2em;}
+  }
+  @media (max-width:600px){
+    .top-nav{padding:16px 5vw;}
+    .nav-links{display:none;}
+    .hero,section.band{padding:8vw 6vw;}
+    .stat-grid{grid-template-columns:1fr 1fr;}
+    .field-row{flex-direction:column;gap:0;}
+  }
+</style>
+</head>
+<body>
+
+<!-- =================================================================== -->
+<!-- लैंडिंग पेज -->
+<!-- =================================================================== -->
+<section id="view-landing" class="view active">
+  <nav class="top-nav">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="4" width="32" height="32" rx="3" fill="#1F3D28"/>
+        <path d="M20 32V10" stroke="#F7F2E3" stroke-width="2"/>
+        <path d="M20 12L15 9M20 16L15 13M20 20L15 17M20 24L15 21" stroke="#C98A2C" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M20 12L25 9M20 16L25 13M20 20L25 17M20 24L25 21" stroke="#C98A2C" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <div class="brand-name">गन्नाHaat</div>
+        <div class="brand-sub">ग्राम पंचायत गन्ना नीलामी</div>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="#how">यह कैसे काम करता है</a>
+      <a href="#cod">नकद भुगतान</a>
+      <a href="#pilot">इस योजना के बारे में</a>
+    </div>
+    <div class="nav-right">
+      <button class="btn btn-ghost btn-sm" onclick="goLogin('admin')">पंचायत कार्यालय</button>
+      <button class="btn btn-primary" onclick="goLogin('farmer')">लॉग इन करें</button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-copy">
+      <span class="hero-tag">रामपुर कलां ग्राम पंचायत में अभी शुरू हुआ</span>
+      <h1>अपना गन्ना उस व्यापारी को बेचें जो सबसे अच्छा दाम दे — न कि जो पहले आ जाए।</h1>
+      <p class="lede">किसान अपने गन्ने की जानकारी डालते हैं, पंजीकृत व्यापारी उस पर बोली लगाते हैं, और किसान सबसे अच्छी बोली चुनते हैं। भुगतान डिलीवरी के समय नकद में होता है, जैसे हमेशा से होता आया है — बस नीलामी नई है।</p>
+      <div class="hero-ctas">
+        <button class="btn btn-primary" onclick="goLogin('farmer')">मैं किसान हूँ</button>
+        <button class="btn btn-gold" onclick="goLogin('vendor')">मैं व्यापारी हूँ</button>
+      </div>
+      <div class="locale-strip">
+        <div><strong>1</strong>ग्राम पंचायत से शुरुआत</div>
+        <div><strong>₹0</strong>किसानों के लिए शुल्क</div>
+        <div><strong>नकद</strong>अभी सिर्फ यही भुगतान तरीका</div>
+      </div>
+    </div>
+    <div class="hero-art">
+      <svg width="320" height="380" viewBox="0 0 320 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="330" width="320" height="50" fill="#EAF0E6"/>
+        <g stroke="#3F6B3F" stroke-width="6" stroke-linecap="round">
+          <path d="M70 340V70"/>
+          <path d="M150 340V40"/>
+          <path d="M230 340V90"/>
+        </g>
+        <g stroke="#C98A2C" stroke-width="3" stroke-linecap="round">
+          <path d="M70 100L45 75"/><path d="M70 140L95 115"/>
+          <path d="M70 180L45 155"/><path d="M70 220L95 195"/>
+          <path d="M70 260L45 235"/>
+          <path d="M150 80L125 55"/><path d="M150 120L175 95"/>
+          <path d="M150 160L125 135"/><path d="M150 200L175 175"/>
+          <path d="M150 240L125 215"/><path d="M150 280L175 255"/>
+          <path d="M230 110L205 85"/><path d="M230 150L255 125"/>
+          <path d="M230 190L205 165"/><path d="M230 230L255 205"/>
+        </g>
+        <g fill="#F0D9A6">
+          <ellipse cx="70" cy="65" rx="10" ry="20"/>
+          <ellipse cx="150" cy="35" rx="10" ry="20"/>
+          <ellipse cx="230" cy="85" rx="10" ry="20"/>
+        </g>
+      </svg>
+    </div>
+  </header>
+
+  <section class="band" id="how">
+    <h2 class="band-title">चार आसान चरण, वैसे ही जैसे गाँव की नीलामी होती है।</h2>
+    <p class="band-sub">बाहर के व्यापारियों को कोई ऐप डाउनलोड करने की ज़रूरत नहीं, और कीमत में कोई बिचौलिए का कमीशन नहीं।</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>किसान गन्ने की जानकारी डालता है</h4>
+        <p>किस्म, मात्रा, अनुमानित कीमत और कब उठाव के लिए तैयार होगा।</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>व्यापारी बोली लगाते हैं</h4>
+        <p>कोई भी सत्यापित व्यापारी नीलामी बंद होने से पहले प्रति टन कीमत की बोली लगा सकता है।</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>किसान एक बोली चुनता है</h4>
+        <p>किसान सभी बोलियाँ देखता है और जो सबसे अच्छी लगे उसे चुनता है।</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h4>डिलीवरी पर नकद भुगतान</h4>
+        <p>व्यापारी गन्ना उठाता है और तय की गई राशि मौके पर नकद देता है।</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="cod">
+    <div class="cod-band">
+      <div>
+        <h3>अभी सिर्फ डिलीवरी पर नकद भुगतान।</h3>
+        <p>यहाँ ज़्यादातर किसान और व्यापारी पहले से नकद में लेन-देन करते हैं, इसलिए अभी सिर्फ यही तरीका है। सिर्फ नीलामी नई है, बाकी सब पहले जैसा। जब पंचायत चाहेगी, तब ऑनलाइन भुगतान भी जोड़ा जा सकता है।</p>
+      </div>
+      <div class="cod-pill">💰 डिलीवरी पर नकद</div>
+    </div>
+  </section>
+
+  <section class="band" id="pilot">
+    <div class="pilot-note">
+      <div style="font-size:1.9rem;">🌾</div>
+      <div>
+        <h4>पहले एक ग्राम पंचायत के लिए बनाया गया</h4>
+        <p>गन्नाHaat की शुरुआत एक ही ग्राम पंचायत से हो रही है, ताकि पंचायत कार्यालय हर किसान और व्यापारी को खुद जाँच कर सके। इसीलिए नीचे एक पंचायत कार्यालय लॉगिन भी है, जिसे पंचायत खुद चलाती है।</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="f-col">
+      <h5>गन्नाHaat</h5>
+      एक ग्राम पंचायत गन्ना नीलामी योजना।<br>रामपुर कलां, उत्तर प्रदेश।
+    </div>
+    <div class="f-col">
+      <h5>लॉगिन</h5>
+      <a href="#" onclick="goLogin('farmer');return false;">किसान</a><br>
+      <a href="#" onclick="goLogin('vendor');return false;">व्यापारी</a><br>
+      <a href="#" onclick="goLogin('admin');return false;">पंचायत कार्यालय</a>
+    </div>
+    <div class="f-col">
+      <h5>पंचायत कार्यालय</h5>
+      रामपुर कलां पंचायत भवन<br>सोम–शनि, सुबह 10 से शाम 4 बजे तक खुला
+    </div>
+  </footer>
+</section>
+
+<!-- =================================================================== -->
+<!-- लॉगिन / रजिस्टर पेज -->
+<!-- =================================================================== -->
+<section id="view-login" class="view">
+  <div class="auth-wrap">
+    <div style="width:100%;max-width:480px;">
+      <a href="#" class="back-link" onclick="showView('view-landing');return false;">← गन्नाHaat पर वापस जाएँ</a>
+      <div class="auth-card">
+        <div class="role-tabs">
+          <button class="role-tab" id="tab-farmer" onclick="setAuthRole('farmer')">किसान</button>
+          <button class="role-tab" id="tab-vendor" onclick="setAuthRole('vendor')">व्यापारी</button>
+          <button class="role-tab" id="tab-admin" onclick="setAuthRole('admin')">पंचायत कार्यालय</button>
+        </div>
+        <div class="auth-body">
+          <h3 id="auth-title">किसान लॉगिन</h3>
+          <p class="auth-hint" id="auth-hint">अपना गन्ना डालने और व्यापारियों की बोलियाँ देखने के लिए लॉगिन करें।</p>
+
+          <div class="admin-note" id="admin-note" style="display:none;">एडमिन खाता पंचायत कार्यालय द्वारा बनाया जाता है। अगर आप पंचायत के कर्मचारी हैं और आपके पास लॉगिन नहीं है, तो कार्यालय से सीधे संपर्क करें।</div>
+
+          <div id="register-fields" style="display:none;">
+            <div class="field">
+              <label>पूरा नाम</label>
+              <input type="text" id="reg-name" placeholder="जैसे: रमेश चौधरी">
+            </div>
+            <div class="field" id="reg-firm-field" style="display:none;">
+              <label>फर्म / मिल का नाम</label>
+              <input type="text" id="reg-firm" placeholder="जैसे: सुरेश ट्रेडर्स">
+            </div>
+            <div class="field">
+              <label>गाँव / वार्ड</label>
+              <input type="text" id="reg-village" placeholder="जैसे: रामपुर कलां, वार्ड 4">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>मोबाइल नंबर</label>
+            <input type="tel" id="auth-mobile" placeholder="10 अंकों का मोबाइल नंबर">
+          </div>
+          <div class="field">
+            <label>पासवर्ड</label>
+            <input type="password" id="auth-password" placeholder="••••••••">
+          </div>
+
+          <button class="btn btn-primary btn-block" id="auth-submit" onclick="handleAuthSubmit()">लॉग इन करें</button>
+
+          <div class="auth-toggle" id="auth-toggle-wrap">
+            नए हैं? <button onclick="toggleAuthMode()" id="auth-toggle-btn">किसान खाता बनाएँ</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- किसान डैशबोर्ड -->
+<!-- =================================================================== -->
+<section id="view-farmer" class="view">
+  <div class="dash-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="32" height="32" rx="3" fill="#C98A2C"/>
+          <path d="M20 32V10" stroke="#1F3D28" stroke-width="2"/>
+        </svg>
+        <div>
+          <div class="brand-name">गन्नाHaat</div>
+          <div class="brand-sub">किसान पैनल</div>
+        </div>
+      </div>
+      <nav class="side-nav">
+        <button class="active" onclick="setTab('farmer','overview',this)"><span class="dot"></span>सारांश</button>
+        <button onclick="setTab('farmer','listings',this)"><span class="dot"></span>मेरी नीलामियाँ</button>
+        <button onclick="setTab('farmer','post',this)"><span class="dot"></span>नया गन्ना डालें</button>
+        <button onclick="setTab('farmer','bids',this)"><span class="dot"></span>मिली बोलियाँ</button>
+        <button onclick="setTab('farmer','orders',this)"><span class="dot"></span>ऑर्डर</button>
+        <button onclick="setTab('farmer','profile',this)"><span class="dot"></span>मेरी जानकारी</button>
+      </nav>
+      <div class="side-foot">
+        <button class="btn btn-ghost-light btn-block btn-sm" onclick="logout()">लॉग आउट करें</button>
+      </div>
+    </aside>
+
+    <div class="dash-main">
+      <div class="dash-header">
+        <div>
+          <h2 id="farmer-tab-title">सारांश</h2>
+          <div class="sub">रामपुर कलां ग्राम पंचायत</div>
+        </div>
+        <div class="user-chip">
+          <div class="user-avatar" id="farmer-avatar">र</div>
+          <div><strong id="farmer-name-chip">रमेश चौधरी</strong><br><span style="color:var(--ink-soft);">किसान</span></div>
+        </div>
+      </div>
+
+      <div class="dash-content">
+
+        <div class="tab-panel active" id="farmer-overview">
+          <div class="stat-grid">
+            <div class="stat-card"><div class="label">चालू नीलामियाँ</div><div class="value" id="f-stat-active">0</div></div>
+            <div class="stat-card c-gold"><div class="label">मिली बोलियाँ</div><div class="value" id="f-stat-bids">0</div></div>
+            <div class="stat-card c-brown"><div class="label">पूरे हुए सौदे</div><div class="value" id="f-stat-closed">0</div></div>
+            <div class="stat-card c-red"><div class="label">मिला नकद (₹)</div><div class="value" id="f-stat-earnings">0</div></div>
+          </div>
+          <div class="panel-block">
+            <div class="block-head"><h3>हाल की गतिविधि</h3></div>
+            <ul class="activity-list" id="farmer-activity"></ul>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="farmer-listings">
+          <div class="panel-block">
+            <div class="block-head">
+              <div><h3>मेरी नीलामियाँ</h3><div class="panel-sub" style="margin:.2em 0 0;">आपके डाले हुए सभी गन्ने की सूची।</div></div>
+              <button class="btn btn-gold btn-sm" onclick="setTab('farmer','post', document.querySelectorAll('#view-farmer .side-nav button')[2])">+ नया गन्ना डालें</button>
+            </div>
+            <div class="table-wrap"><table class="data" id="farmer-listings-table"></table></div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="farmer-post">
+          <div class="panel-block" style="max-width:640px;">
+            <h3>नया गन्ना डालें</h3>
+            <p class="panel-sub">यह पंचायत के हर सत्यापित व्यापारी को दिखेगा, जब तक नीलामी बंद न हो जाए।</p>
+            <div class="field-row">
+              <div class="field">
+                <label>गन्ने की किस्म</label>
+                <select id="p-variety">
+                  <option>Co 0238</option>
+                  <option>Co 86032</option>
+                  <option>CoM 0265</option>
+                  <option>अन्य स्थानीय किस्म</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>मात्रा (टन में)</label>
+                <input type="number" id="p-qty" min="1" placeholder="जैसे: 10">
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>न्यूनतम कीमत (₹ / टन)</label>
+                <input type="number" id="p-minprice" min="1" placeholder="जैसे: 3200">
+              </div>
+              <div class="field">
+                <label>खेत / गाँव का पता</label>
+                <input type="text" id="p-location" placeholder="जैसे: रामपुर कलां, खेत नंबर 12">
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>उठाव के लिए तैयार होगा</label>
+                <input type="date" id="p-ready">
+              </div>
+              <div class="field">
+                <label>नीलामी कब बंद होगी</label>
+                <input type="datetime-local" id="p-closes">
+              </div>
+            </div>
+            <div class="field">
+              <label>व्यापारियों के लिए सूचना (वैकल्पिक)</label>
+              <textarea id="p-notes" rows="3" placeholder="रास्ते की स्थिति, सिंचाई, या कोई भी बात जो व्यापारी को बोली लगाने से पहले जाननी चाहिए।"></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="postListing()">नीलामी के लिए गन्ना डालें</button>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="farmer-bids">
+          <div class="panel-block">
+            <h3>मिली बोलियाँ</h3>
+            <p class="panel-sub">किसी एक नीलामी को चुनें और उस पर मिली सभी बोलियाँ देखें।</p>
+            <div class="field" style="max-width:420px;">
+              <label>नीलामी चुनें</label>
+              <select id="bids-listing-select" onchange="renderBidsForSelected()"></select>
+            </div>
+            <div class="table-wrap"><table class="data" id="farmer-bids-table"></table></div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="farmer-orders">
+          <div class="panel-block">
+            <h3>ऑर्डर</h3>
+            <p class="panel-sub">स्वीकार किए गए सौदे, नकद मिलने तक की पूरी जानकारी।</p>
+            <div id="farmer-orders-list"></div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="farmer-profile">
+          <div class="panel-block" style="max-width:520px;">
+            <h3>मेरी जानकारी</h3>
+            <div class="field"><label>पूरा नाम</label><input type="text" id="fp-name" value="रमेश चौधरी"></div>
+            <div class="field"><label>मोबाइल नंबर</label><input type="text" value="98XXXXXX10" disabled></div>
+            <div class="field"><label>गाँव / वार्ड</label><input type="text" id="fp-village" value="रामपुर कलां, वार्ड 4"></div>
+            <div class="field"><label>ज़मीन का आकार (एकड़ में)</label><input type="text" value="6.5"></div>
+            <button class="btn btn-primary" onclick="toast('जानकारी सुरक्षित हुई।')">बदलाव सुरक्षित करें</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- व्यापारी डैशबोर्ड -->
+<!-- =================================================================== -->
+<section id="view-vendor" class="view">
+  <div class="dash-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="32" height="32" rx="3" fill="#C98A2C"/>
+          <path d="M20 32V10" stroke="#1F3D28" stroke-width="2"/>
+        </svg>
+        <div>
+          <div class="brand-name">गन्नाHaat</div>
+          <div class="brand-sub">व्यापारी पैनल</div>
+        </div>
+      </div>
+      <nav class="side-nav">
+        <button class="active" onclick="setTab('vendor','overview',this)"><span class="dot"></span>सारांश</button>
+        <button onclick="setTab('vendor','browse',this)"><span class="dot"></span>नीलामियाँ देखें</button>
+        <button onclick="setTab('vendor','mybids',this)"><span class="dot"></span>मेरी बोलियाँ</button>
+        <button onclick="setTab('vendor','orders',this)"><span class="dot"></span>मेरे ऑर्डर</button>
+        <button onclick="setTab('vendor','profile',this)"><span class="dot"></span>मेरी जानकारी</button>
+      </nav>
+      <div class="side-foot">
+        <button class="btn btn-ghost-light btn-block btn-sm" onclick="logout()">लॉग आउट करें</button>
+      </div>
+    </aside>
+
+    <div class="dash-main">
+      <div class="dash-header">
+        <div>
+          <h2 id="vendor-tab-title">सारांश</h2>
+          <div class="sub">रामपुर कलां ग्राम पंचायत</div>
+        </div>
+        <div class="user-chip">
+          <div class="user-avatar" id="vendor-avatar">सु</div>
+          <div><strong id="vendor-name-chip">सुरेश ट्रेडर्स</strong><br><span style="color:var(--ink-soft);">व्यापारी</span></div>
+        </div>
+      </div>
+
+      <div class="dash-content">
+
+        <div class="tab-panel active" id="vendor-overview">
+          <div class="stat-grid">
+            <div class="stat-card"><div class="label">चालू बोलियाँ</div><div class="value" id="v-stat-active">0</div></div>
+            <div class="stat-card c-gold"><div class="label">जीती गई बोलियाँ</div><div class="value" id="v-stat-won">0</div></div>
+            <div class="stat-card c-brown"><div class="label">खरीदा गया गन्ना (टन)</div><div class="value" id="v-stat-tons">0</div></div>
+            <div class="stat-card c-red"><div class="label">बाकी डिलीवरी</div><div class="value" id="v-stat-pending">0</div></div>
+          </div>
+          <div class="panel-block">
+            <div class="block-head"><h3>हाल की गतिविधि</h3></div>
+            <ul class="activity-list" id="vendor-activity"></ul>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="vendor-browse">
+          <div class="block-head">
+            <div><h3 style="font-size:1.15rem;">खुली नीलामियाँ</h3><div class="panel-sub" style="margin:.2em 0 0;">पंचायत में बोली के लिए खुला हर गन्ना यहाँ दिखेगा।</div></div>
+          </div>
+          <div class="listing-grid" id="vendor-browse-grid"></div>
+        </div>
+
+        <div class="tab-panel" id="vendor-mybids">
+          <div class="panel-block">
+            <h3>मेरी बोलियाँ</h3>
+            <p class="panel-sub">आपकी लगाई हर बोली और उसकी स्थिति।</p>
+            <div class="table-wrap"><table class="data" id="vendor-bids-table"></table></div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="vendor-orders">
+          <div class="panel-block">
+            <h3>मेरे ऑर्डर</h3>
+            <p class="panel-sub">आपकी जीती बोलियाँ। गन्ना उठाते समय किसान को नकद भुगतान करें।</p>
+            <div id="vendor-orders-list"></div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="vendor-profile">
+          <div class="panel-block" style="max-width:520px;">
+            <h3>मेरी जानकारी</h3>
+            <div class="field"><label>फर्म का नाम</label><input type="text" id="vp-firm" value="सुरेश ट्रेडर्स"></div>
+            <div class="field"><label>संपर्क व्यक्ति</label><input type="text" value="सुरेश यादव"></div>
+            <div class="field"><label>मोबाइल नंबर</label><input type="text" value="97XXXXXX44" disabled></div>
+            <div class="field"><label>मुख्य पता</label><input type="text" id="vp-location" value="बिजनौर रोड, रामपुर कलां के पास"></div>
+            <button class="btn btn-primary" onclick="toast('जानकारी सुरक्षित हुई।')">बदलाव सुरक्षित करें</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- पंचायत कार्यालय डैशबोर्ड -->
+<!-- =================================================================== -->
+<section id="view-admin" class="view">
+  <div class="dash-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="32" height="32" rx="3" fill="#F7F2E3"/>
+          <path d="M20 32V10" stroke="#1F3D28" stroke-width="2"/>
+        </svg>
+        <div>
+          <div class="brand-name">गन्नाHaat</div>
+          <div class="brand-sub">पंचायत कार्यालय</div>
+        </div>
+      </div>
+      <nav class="side-nav">
+        <button class="active" onclick="setTab('admin','overview',this)"><span class="dot"></span>सारांश</button>
+        <button onclick="setTab('admin','farmers',this)"><span class="dot"></span>किसान</button>
+        <button onclick="setTab('admin','vendors',this)"><span class="dot"></span>व्यापारी</button>
+        <button onclick="setTab('admin','listings',this)"><span class="dot"></span>नीलामियाँ</button>
+        <button onclick="setTab('admin','settings',this)"><span class="dot"></span>सेटिंग्स</button>
+      </nav>
+      <div class="side-foot">
+        <button class="btn btn-ghost-light btn-block btn-sm" onclick="logout()">लॉग आउट करें</button>
+      </div>
+    </aside>
+
+    <div class="dash-main">
+      <div class="dash-header">
+        <div>
+          <h2 id="admin-tab-title">सारांश</h2>
+          <div class="sub">रामपुर कलां ग्राम पंचायत</div>
+        </div>
+        <div class="user-chip">
+          <div class="user-avatar" id="admin-avatar">प</div>
+          <div><strong>पंचायत कार्यालय</strong><br><span style="color:var(--ink-soft);">प्रशासक</span></div>
+        </div>
+      </div>
+
+      <div class="dash-content">
+
+        <div class="tab-panel active" id="admin-overview">
+          <div class="stat-grid">
+            <div class="stat-card"><div class="label">कुल किसान</div><div class="value" id="a-stat-farmers">0</div></div>
+            <div class="stat-card c-gold"><div class="label">कुल व्यापारी</div><div class="value" id="a-stat-vendors">0</div></div>
+            <div class="stat-card c-brown"><div class="label">चालू नीलामियाँ</div><div class="value" id="a-stat-listings">0</div></div>
+            <div class="stat-card c-red"><div class="label">पूरे हुए सौदे</div><div class="value" id="a-stat-deals">0</div></div>
+          </div>
+          <div class="panel-block">
+            <div class="block-head"><h3>पूरी गतिविधि</h3></div>
+            <ul class="activity-list" id="admin-activity"></ul>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="admin-farmers">
+          <div class="panel-block">
+            <div class="block-head"><h3>पंजीकृत किसान</h3></div>
+            <div class="table-wrap"><table class="data" id="admin-farmers-table"></table></div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="admin-vendors">
+          <div class="panel-block">
+            <div class="block-head"><h3>पंजीकृत व्यापारी</h3></div>
+            <div class="table-wrap"><table class="data" id="admin-vendors-table"></table></div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="admin-listings">
+          <div class="panel-block">
+            <div class="block-head"><h3>सभी नीलामियाँ</h3></div>
+            <div class="table-wrap"><table class="data" id="admin-listings-table"></table></div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="admin-settings">
+          <div class="panel-block" style="max-width:560px;">
+            <h3>पंचायत की जानकारी</h3>
+            <div class="field"><label>ग्राम पंचायत का नाम</label><input type="text" value="रामपुर कलां"></div>
+            <div class="field-row">
+              <div class="field"><label>ज़िला</label><input type="text" value="बिजनौर"></div>
+              <div class="field"><label>राज्य</label><input type="text" value="उत्तर प्रदेश"></div>
+            </div>
+            <div class="field"><label>कार्यालय का फ़ोन नंबर</label><input type="text" value="01342-XXXXXX"></div>
+            <button class="btn btn-primary" onclick="toast('पंचायत की जानकारी सुरक्षित हुई।')">बदलाव सुरक्षित करें</button>
+          </div>
+          <div class="panel-block" style="max-width:560px;">
+            <h3>भुगतान के तरीके</h3>
+            <p class="panel-sub">अभी इस योजना में सिर्फ एक तरीका चालू है।</p>
+            <div class="lc-row" style="border-top:none;padding-top:0;">
+              <span>डिलीवरी पर नकद</span>
+              <span class="badge badge-green">चालू</span>
+            </div>
+            <div class="lc-row">
+              <span>ऑनलाइन भुगतान (UPI / बैंक ट्रांसफर)</span>
+              <span class="badge badge-grey">बाद में आएगा</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   मॉक डेटा — बाद में असली API से बदलना है। हर render*() फंक्शन
+   सिर्फ इन्हीं ऐरे से डेटा पढ़ता है, इसलिए आगे चलकर इन्हें
+   fetch() के नतीजों से बदलना आसान रहेगा।
+   ============================================================ */
+
+let currentFarmerName = 'रमेश चौधरी';
+let currentVendorFirm = 'सुरेश ट्रेडर्स';
+let authRole = 'farmer';
+let authMode = 'login'; // 'login' | 'register'
+
+let nextListingId = 5, nextBidId = 5, nextOrderId = 2;
+
+let listings = [
+  {id:1, farmer:'रमेश चौधरी', village:'रामपुर कलां, खेत नंबर 12', variety:'Co 0238', qty:12, minPrice:3200, status:'active', closes:'नीलामी 2 दिन में बंद होगी'},
+  {id:2, farmer:'रमेश चौधरी', village:'रामपुर कलां, खेत नंबर 4', variety:'CoM 0265', qty:8, minPrice:3100, status:'active', closes:'नीलामी 4 दिन में बंद होगी'},
+  {id:3, farmer:'मंजू देवी', village:'रामपुर कलां, खेत नंबर 9', variety:'Co 86032', qty:15, minPrice:3050, status:'active', closes:'नीलामी कल बंद होगी'},
+  {id:4, farmer:'रमेश चौधरी', village:'रामपुर कलां, खेत नंबर 6', variety:'Co 0238', qty:10, minPrice:3150, status:'sold', closes:'नीलामी बंद हो चुकी है'},
+];
+
+let bids = [
+  {id:1, listingId:1, vendor:'सुरेश ट्रेडर्स', price:3450, time:'आज, सुबह 9:10', status:'pending'},
+  {id:2, listingId:1, vendor:'बिजनौर शुगर मिल', price:3400, time:'आज, सुबह 8:40', status:'pending'},
+  {id:3, listingId:3, vendor:'सुरेश ट्रेडर्स', price:3200, time:'कल, शाम 6:15', status:'pending'},
+  {id:4, listingId:4, vendor:'सुरेश ट्रेडर्स', price:3300, time:'3 दिन पहले', status:'accepted'},
+];
+
+let orders = [
+  {id:1, listingId:4, variety:'Co 0238', qty:10, farmer:'रमेश चौधरी', vendor:'सुरेश ट्रेडर्स', price:3300, status:'completed'},
+];
+
+let farmersDir = [
+  {name:'रमेश चौधरी', mobile:'98XXXXXX10', village:'वार्ड 4', listings:3, status:'verified'},
+  {name:'मंजू देवी', mobile:'99XXXXXX22', village:'वार्ड 2', listings:1, status:'verified'},
+  {name:'ओम प्रकाश', mobile:'98XXXXXX77', village:'वार्ड 6', listings:0, status:'pending'},
+  {name:'कमला सिंह', mobile:'97XXXXXX31', village:'वार्ड 1', listings:2, status:'verified'},
+];
+
+let vendorsDir = [
+  {name:'सुरेश ट्रेडर्स', contact:'सुरेश यादव', mobile:'97XXXXXX44', bids:3, status:'verified'},
+  {name:'बिजनौर शुगर मिल', contact:'अनिल कुमार', mobile:'96XXXXXX09', bids:1, status:'verified'},
+  {name:'हल्दौर केन कंपनी', contact:'विक्रम सिंह', mobile:'95XXXXXX88', bids:0, status:'pending'},
+];
+
+let activityLog = [
+  {who:'रमेश चौधरी', text:'ने नई नीलामी डाली — Co 0238, 12 टन', time:'2 घंटे पहले', tag:'listing'},
+  {who:'सुरेश ट्रेडर्स', text:'ने Co 0238 (रमेश चौधरी) पर ₹3,450/टन की बोली लगाई', time:'1 घंटे पहले', tag:'bid'},
+  {who:'बिजनौर शुगर मिल', text:'ने Co 0238 (रमेश चौधरी) पर ₹3,400/टन की बोली लगाई', time:'50 मिनट पहले', tag:'bid'},
+  {who:'रमेश चौधरी', text:'ने सुरेश ट्रेडर्स की बोली स्वीकार की — Co 0238, 10 टन', time:'3 दिन पहले', tag:'deal'},
+];
+
+let currentBidsListingId = 1;
+
+/* ============================================================
+   नेविगेशन
+   ============================================================ */
+function showView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function goLogin(role){
+  showView('view-login');
+  setAuthRole(role);
+}
+
+function setAuthRole(role){
+  authRole = role;
+  document.querySelectorAll('.role-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+role).classList.add('active');
+  const titles = {farmer:'किसान लॉगिन', vendor:'व्यापारी लॉगिन', admin:'पंचायत कार्यालय लॉगिन'};
+  const hints = {
+    farmer:'अपना गन्ना डालने और व्यापारियों की बोलियाँ देखने के लिए लॉगिन करें।',
+    vendor:'खुली नीलामी देखने और बोली लगाने के लिए लॉगिन करें।',
+    admin:'किसानों, व्यापारियों की जाँच करने और नीलामी पर नज़र रखने के लिए लॉगिन करें।'
+  };
+  document.getElementById('admin-note').style.display = role==='admin' ? 'block' : 'none';
+  document.getElementById('auth-toggle-wrap').style.display = role==='admin' ? 'none' : 'block';
+  document.getElementById('reg-firm-field').style.display = role==='vendor' ? 'block' : 'none';
+  authMode = 'login';
+  renderAuthMode(titles[role], hints[role]);
+}
+
+function toggleAuthMode(){
+  authMode = authMode === 'login' ? 'register' : 'login';
+  const titles = {farmer:'किसान', vendor:'व्यापारी'};
+  if(authMode === 'register'){
+    renderAuthMode(titles[authRole]+' खाता बनाएँ', 'बस एक मिनट लगेगा — पंचायत कार्यालय नए खातों की जाँच करता है।');
+  } else {
+    setAuthRole(authRole);
+  }
+}
+
+function renderAuthMode(title, hint){
+  document.getElementById('auth-title').textContent = title;
+  document.getElementById('auth-hint').textContent = hint;
+  document.getElementById('register-fields').style.display = authMode==='register' ? 'block' : 'none';
+  document.getElementById('auth-submit').textContent = authMode==='register' ? 'खाता बनाएँ' : 'लॉग इन करें';
+  const roleLabel = authRole==='farmer' ? 'किसान' : 'व्यापारी';
+  document.getElementById('auth-toggle-btn').textContent = authMode==='register' ? 'इसके बजाय लॉगिन करें' : roleLabel+' खाता बनाएँ';
+}
+
+function handleAuthSubmit(){
+  const name = document.getElementById('reg-name').value.trim();
+  const firm = document.getElementById('reg-firm').value.trim();
+  if(authRole === 'farmer'){
+    if(name) currentFarmerName = name;
+    document.getElementById('farmer-name-chip').textContent = currentFarmerName;
+    document.getElementById('farmer-avatar').textContent = currentFarmerName.charAt(0);
+    showView('view-farmer');
+    renderAllFarmer();
+  } else if(authRole === 'vendor'){
+    if(firm) currentVendorFirm = firm; else if(name) currentVendorFirm = name;
+    document.getElementById('vendor-name-chip').textContent = currentVendorFirm;
+    document.getElementById('vendor-avatar').textContent = currentVendorFirm.charAt(0);
+    showView('view-vendor');
+    renderAllVendor();
+  } else {
+    showView('view-admin');
+    renderAllAdmin();
+  }
+  toast(authMode==='register' ? 'स्वागत है, गन्नाHaat में आपका स्वागत है।' : 'स्वागत है, आप लॉगिन हो गए हैं।');
+}
+
+function logout(){
+  showView('view-landing');
+}
+
+function setTab(section, tab, btn){
+  document.querySelectorAll('#view-'+section+' .side-nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#view-'+section+' .tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById(section+'-'+tab).classList.add('active');
+  document.getElementById(section+'-tab-title').textContent = btn.textContent;
+}
+
+/* ============================================================
+   टोस्ट सूचना
+   ============================================================ */
+let toastTimer;
+function toast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>el.classList.remove('show'), 2600);
+}
+
+function logActivity(who, text, tag){
+  activityLog.unshift({who, text, time:'अभी-अभी', tag});
+}
+
+function money(n){ return '₹' + Number(n).toLocaleString('en-IN'); }
+
+/* ============================================================
+   किसान — रेंडरिंग
+   ============================================================ */
+function myListings(){ return listings.filter(l => l.farmer === currentFarmerName); }
+
+function renderAllFarmer(){
+  const mine = myListings();
+  const activeCount = mine.filter(l=>l.status==='active').length;
+  const bidsOnMine = bids.filter(b => mine.some(l=>l.id===b.listingId));
+  const closedCount = mine.filter(l=>l.status==='sold').length;
+  const myOrders = orders.filter(o=>o.farmer===currentFarmerName);
+  const earnings = myOrders.filter(o=>o.status==='completed').reduce((s,o)=>s+o.price*o.qty,0);
+
+  document.getElementById('f-stat-active').textContent = activeCount;
+  document.getElementById('f-stat-bids').textContent = bidsOnMine.length;
+  document.getElementById('f-stat-closed').textContent = closedCount;
+  document.getElementById('f-stat-earnings').textContent = earnings.toLocaleString('en-IN');
+
+  renderActivity('farmer-activity', a => a.who === currentFarmerName || a.tag==='bid');
+  renderFarmerListingsTable();
+  renderBidsListingSelect();
+  renderBidsForSelected();
+  renderFarmerOrders();
+}
+
+function statusBadge(status){
+  const map = {
+    active:'<span class="badge badge-green">चालू</span>',
+    sold:'<span class="badge badge-gold">बिक गया</span>',
+    closed:'<span class="badge badge-grey">बंद</span>',
+    pending:'<span class="badge badge-gold">प्रतीक्षा में</span>',
+    accepted:'<span class="badge badge-green">स्वीकृत</span>',
+    rejected:'<span class="badge badge-red">अस्वीकृत</span>',
+    not_selected:'<span class="badge badge-grey">नहीं चुना गया</span>',
+    verified:'<span class="badge badge-green">सत्यापित</span>',
+  };
+  return map[status] || '<span class="badge badge-grey">'+status+'</span>';
+}
+
+function renderFarmerListingsTable(){
+  const mine = myListings();
+  const table = document.getElementById('farmer-listings-table');
+  if(mine.length===0){ table.innerHTML = emptyRow('अभी कोई नीलामी नहीं — अपना पहला गन्ना डालें।'); return; }
+  const rows = mine.map(l=>{
+    const listingBids = bids.filter(b=>b.listingId===l.id);
+    const highest = listingBids.length ? Math.max(...listingBids.map(b=>b.price)) : null;
+    return `<tr>
+      <td>${l.variety}</td>
+      <td>${l.qty} टन</td>
+      <td>${money(l.minPrice)}/टन</td>
+      <td>${highest ? money(highest)+'/टन' : '—'}</td>
+      <td>${listingBids.length}</td>
+      <td>${statusBadge(l.status)}</td>
+      <td class="wrap">${l.closes}</td>
+    </tr>`;
+  }).join('');
+  table.innerHTML = `<thead><tr><th>किस्म</th><th>मात्रा</th><th>न्यूनतम कीमत</th><th>सबसे बड़ी बोली</th><th>बोलियाँ</th><th>स्थिति</th><th>समय</th></tr></thead><tbody>${rows}</tbody>`;
+}
+
+function emptyRow(msg){
+  return `<tbody><tr><td style="padding:2em 0;color:var(--ink-soft);text-align:center;" colspan="8">${msg}</td></tr></tbody>`;
+}
+
+function renderBidsListingSelect(){
+  const sel = document.getElementById('bids-listing-select');
+  const mine = myListings();
+  sel.innerHTML = mine.map(l=>`<option value="${l.id}">${l.variety} — ${l.qty} टन, ${l.village}</option>`).join('');
+  if(mine.length && !mine.some(l=>l.id===currentBidsListingId)){
+    currentBidsListingId = mine[0].id;
+  }
+  sel.value = currentBidsListingId;
+}
+
+function renderBidsForSelected(){
+  const sel = document.getElementById('bids-listing-select');
+  currentBidsListingId = Number(sel.value);
+  const table = document.getElementById('farmer-bids-table');
+  const listing = listings.find(l=>l.id===currentBidsListingId);
+  const listingBids = bids.filter(b=>b.listingId===currentBidsListingId);
+  if(!listing || listingBids.length===0){ table.innerHTML = emptyRow('इस नीलामी पर अभी कोई बोली नहीं आई।'); return; }
+  const rows = listingBids.map(b=>{
+    const canAct = listing.status==='active' && b.status==='pending';
+    return `<tr>
+      <td>${b.vendor}</td>
+      <td>${money(b.price)}/टन</td>
+      <td>${money(b.price*listing.qty)}</td>
+      <td>${b.time}</td>
+      <td>${statusBadge(b.status)}</td>
+      <td>${canAct ? `
+        <button class="btn btn-primary btn-sm" onclick="acceptBid(${b.id})">स्वीकार करें</button>
+        <button class="btn btn-danger btn-sm" onclick="rejectBid(${b.id})">अस्वीकार करें</button>
+      ` : '—'}</td>
+    </tr>`;
+  }).join('');
+  table.innerHTML = `<thead><tr><th>व्यापारी</th><th>बोली</th><th>कुल राशि (${listing.qty} टन)</th><th>बोली का समय</th><th>स्थिति</th><th>कार्रवाई</th></tr></thead><tbody>${rows}</tbody>`;
+}
+
+function acceptBid(bidId){
+  const bid = bids.find(b=>b.id===bidId);
+  const listing = listings.find(l=>l.id===bid.listingId);
+  bid.status = 'accepted';
+  listing.status = 'sold';
+  bids.filter(b=>b.listingId===listing.id && b.id!==bidId).forEach(b=>b.status='not_selected');
+  orders.push({id: nextOrderId++, listingId:listing.id, variety:listing.variety, qty:listing.qty, farmer:listing.farmer, vendor:bid.vendor, price:bid.price, status:'confirmed'});
+  logActivity(listing.farmer, `ने ${bid.vendor} की बोली स्वीकार की — ${listing.variety}, ${listing.qty} टन`, 'deal');
+  toast('बोली स्वीकार हुई। ऑर्डर बन गया है — डिलीवरी पर नकद भुगतान होगा।');
+  renderAllFarmer();
+  if(document.getElementById('view-vendor').classList.contains('active')) renderAllVendor();
+  if(document.getElementById('view-admin').classList.contains('active')) renderAllAdmin();
+}
+
+function rejectBid(bidId){
+  const bid = bids.find(b=>b.id===bidId);
+  bid.status = 'rejected';
+  toast('बोली अस्वीकार की गई।');
+  renderAllFarmer();
+}
+
+function postListing(){
+  const variety = document.getElementById('p-variety').value;
+  const qty = Number(document.getElementById('p-qty').value);
+  const minPrice = Number(document.getElementById('p-minprice').value);
+  const location = document.getElementById('p-location').value.trim();
+  const ready = document.getElementById('p-ready').value;
+  const closes = document.getElementById('p-closes').value;
+
+  if(!qty || !minPrice || !location){
+    toast('कृपया मात्रा, न्यूनतम कीमत और पता भरें।');
+    return;
+  }
+
+  listings.unshift({
+    id: nextListingId++,
+    farmer: currentFarmerName,
+    village: location,
+    variety, qty, minPrice,
+    status:'active',
+    closes: closes ? ('नीलामी बंद होगी: ' + new Date(closes).toLocaleString('en-IN', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'})) : 'नीलामी चालू है'
+  });
+  logActivity(currentFarmerName, `ने ${variety}, ${qty} टन की नई नीलामी डाली`, 'listing');
+  toast('गन्ना डाल दिया गया। अब व्यापारी इस पर बोली लगा सकते हैं।');
+
+  document.getElementById('p-qty').value='';
+  document.getElementById('p-minprice').value='';
+  document.getElementById('p-location').value='';
+  document.getElementById('p-ready').value='';
+  document.getElementById('p-closes').value='';
+  document.getElementById('p-notes').value='';
+
+  renderAllFarmer();
+  setTab('farmer','listings', document.querySelectorAll('#view-farmer .side-nav button')[1]);
+}
+
+function renderFarmerOrders(){
+  const list = document.getElementById('farmer-orders-list');
+  const mine = orders.filter(o=>o.farmer===currentFarmerName);
+  if(mine.length===0){ list.innerHTML = emptyState('अभी कोई ऑर्डर नहीं', 'स्वीकार की गई बोलियाँ यहाँ ऑर्डर के रूप में दिखेंगी।'); return; }
+  list.innerHTML = mine.map(o=>orderCard(o,'farmer')).join('');
+}
+
+function emptyState(title, sub){
+  return `<div class="empty-state"><div class="es-icon">🌾</div><h4>${title}</h4><p>${sub}</p></div>`;
+}
+
+function orderCard(o, viewer){
+  const done = o.status === 'completed';
+  return `<div class="order-card">
+    <div class="order-top">
+      <div>
+        <h4>${o.variety} — ${o.qty} टन</h4>
+        <div class="order-meta">${viewer==='farmer' ? o.vendor+' को बेचा' : o.farmer+' से खरीदा'} · ${money(o.price)}/टन · कुल ${money(o.price*o.qty)}</div>
+      </div>
+      <span class="cod-tag">💰 डिलीवरी पर नकद</span>
+    </div>
+    <div class="stepper">
+      <div class="step-pt done"><span class="pt-dot">✓</span>ऑर्डर पक्का हुआ</div>
+      <div class="step-line"></div>
+      <div class="step-pt ${done?'done':''}"><span class="pt-dot">${done?'✓':'2'}</span>नकद मिल गया</div>
+    </div>
+    ${viewer==='farmer' && !done ? `<button class="btn btn-primary btn-sm" onclick="completeOrder(${o.id})">डिलीवरी व नकद मिलना दर्ज करें</button>` : ''}
+    ${viewer==='vendor' ? (done ? '<span class="badge badge-green">पूरा हुआ</span>' : '<span class="badge badge-gold">नकद भुगतान का इंतज़ार</span>') : ''}
+  </div>`;
+}
+
+function completeOrder(orderId){
+  const o = orders.find(x=>x.id===orderId);
+  o.status = 'completed';
+  logActivity(o.farmer, `ने ${o.vendor} से नकद प्राप्त किया — ${o.variety}, ${o.qty} टन`, 'deal');
+  toast('ऑर्डर पूरा हुआ। नकद मिल गया।');
+  renderAllFarmer();
+  if(document.getElementById('view-vendor').classList.contains('active')) renderAllVendor();
+  if(document.getElementById('view-admin').classList.contains('active')) renderAllAdmin();
+}
+
+function renderActivity(containerId, filterFn){
+  const el = document.getElementById(containerId);
+  const items = (filterFn ? activityLog.filter(filterFn) : activityLog).slice(0,6);
+  if(items.length===0){ el.innerHTML = '<li style="color:var(--ink-soft);">अभी कोई गतिविधि नहीं।</li>'; return; }
+  el.innerHTML = items.map(a=>`<li><span><strong>${a.who}</strong> ${a.text}</span><span class="a-time">${a.time}</span></li>`).join('');
+}
+
+/* ============================================================
+   व्यापारी — रेंडरिंग
+   ============================================================ */
+function renderAllVendor(){
+  const myBids = bids.filter(b=>b.vendor===currentVendorFirm);
+  const activeBids = myBids.filter(b=>b.status==='pending').length;
+  const wonDeals = myBids.filter(b=>b.status==='accepted').length;
+  const myOrders = orders.filter(o=>o.vendor===currentVendorFirm);
+  const tons = myOrders.reduce((s,o)=>s+o.qty,0);
+  const pending = myOrders.filter(o=>o.status!=='completed').length;
+
+  document.getElementById('v-stat-active').textContent = activeBids;
+  document.getElementById('v-stat-won').textContent = wonDeals;
+  document.getElementById('v-stat-tons').textContent = tons;
+  document.getElementById('v-stat-pending').textContent = pending;
+
+  renderActivity('vendor-activity', a => a.who === currentVendorFirm || a.tag==='listing');
+  renderVendorBrowse();
+  renderVendorBidsTable();
+  renderVendorOrders();
+}
+
+function renderVendorBrowse(){
+  const grid = document.getElementById('vendor-browse-grid');
+  const open = listings.filter(l=>l.status==='active');
+  if(open.length===0){ grid.innerHTML = emptyState('अभी कोई नीलामी खुली नहीं', 'जब कोई किसान नया गन्ना डालेगा, तब यहाँ दिखेगा।'); return; }
+  grid.innerHTML = open.map(l=>{
+    const listingBids = bids.filter(b=>b.listingId===l.id);
+    const highest = listingBids.length ? Math.max(...listingBids.map(b=>b.price)) : null;
+    const myBidOnThis = bids.find(b=>b.listingId===l.id && b.vendor===currentVendorFirm && b.status==='pending');
+    return `<div class="listing-card">
+      <div class="lc-top">
+        <h4>${l.variety}</h4>
+        <span class="badge badge-green">खुला है</span>
+      </div>
+      <div class="lc-village">${l.village} · किसान: ${l.farmer}</div>
+      <div class="lc-row" style="border-top:none;padding-top:0;"><span>मात्रा</span><span>${l.qty} टन</span></div>
+      <div class="lc-row"><span>न्यूनतम कीमत</span><span>${money(l.minPrice)}/टन</span></div>
+      <div class="lc-row"><span>सबसे बड़ी बोली</span><span class="hi">${highest ? money(highest)+'/टन' : 'अभी कोई बोली नहीं'}</span></div>
+      <div class="lc-row"><span>समय</span><span>${l.closes}</span></div>
+      <div class="lc-actions">
+        ${myBidOnThis
+          ? `<span class="badge badge-gold">आपकी बोली: ${money(myBidOnThis.price)}/टन</span>`
+          : `<button class="btn btn-gold btn-block btn-sm" onclick="toggleBidForm(${l.id})">बोली लगाएँ</button>`}
+      </div>
+      <div class="bid-form" id="bid-form-${l.id}">
+        <div class="field"><label>आपकी बोली (₹ / टन)</label><input type="number" id="bid-price-${l.id}" min="${l.minPrice}" placeholder="न्यूनतम ${l.minPrice}"></div>
+        <button class="btn btn-primary btn-block btn-sm" onclick="submitBid(${l.id})">बोली भेजें</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleBidForm(listingId){
+  document.querySelectorAll('.bid-form').forEach(f=>{ if(f.id !== 'bid-form-'+listingId) f.classList.remove('open'); });
+  document.getElementById('bid-form-'+listingId).classList.toggle('open');
+}
+
+function submitBid(listingId){
+  const listing = listings.find(l=>l.id===listingId);
+  const input = document.getElementById('bid-price-'+listingId);
+  const price = Number(input.value);
+  if(!price || price < listing.minPrice){
+    toast('न्यूनतम कीमत ' + money(listing.minPrice) + '/टन या उससे ज़्यादा की बोली लगाएँ।');
+    return;
+  }
+  bids.push({id: nextBidId++, listingId, vendor: currentVendorFirm, price, time:'अभी-अभी', status:'pending'});
+  logActivity(currentVendorFirm, `ने ${listing.variety} (${listing.farmer}) पर ${money(price)}/टन की बोली लगाई`, 'bid');
+  toast(money(price) + '/टन की बोली भेज दी गई।');
+  renderAllVendor();
+  if(document.getElementById('view-farmer').classList.contains('active')) renderAllFarmer();
+  if(document.getElementById('view-admin').classList.contains('active')) renderAllAdmin();
+}
+
+function renderVendorBidsTable(){
+  const table = document.getElementById('vendor-bids-table');
+  const myBids = bids.filter(b=>b.vendor===currentVendorFirm);
+  if(myBids.length===0){ table.innerHTML = emptyRow('अभी कोई बोली नहीं लगाई — खुली नीलामियाँ देखें और शुरू करें।'); return; }
+  const rows = myBids.map(b=>{
+    const listing = listings.find(l=>l.id===b.listingId);
+    return `<tr>
+      <td>${listing.variety}, ${listing.qty} टन</td>
+      <td>${listing.farmer}</td>
+      <td>${money(b.price)}/टन</td>
+      <td>${b.time}</td>
+      <td>${statusBadge(b.status)}</td>
+    </tr>`;
+  }).join('');
+  table.innerHTML = `<thead><tr><th>नीलामी</th><th>किसान</th><th>मेरी बोली</th><th>बोली का समय</th><th>स्थिति</th></tr></thead><tbody>${rows}</tbody>`;
+}
+
+function renderVendorOrders(){
+  const list = document.getElementById('vendor-orders-list');
+  const mine = orders.filter(o=>o.vendor===currentVendorFirm);
+  if(mine.length===0){ list.innerHTML = emptyState('अभी कोई ऑर्डर नहीं', 'बोली जीतने पर वह यहाँ दिखेगी।'); return; }
+  list.innerHTML = mine.map(o=>orderCard(o,'vendor')).join('');
+}
+
+/* ============================================================
+   पंचायत कार्यालय — रेंडरिंग
+   ============================================================ */
+function renderAllAdmin(){
+  document.getElementById('a-stat-farmers').textContent = farmersDir.length;
+  document.getElementById('a-stat-vendors').textContent = vendorsDir.length;
+  document.getElementById('a-stat-listings').textContent = listings.filter(l=>l.status==='active').length;
+  document.getElementById('a-stat-deals').textContent = orders.filter(o=>o.status==='completed').length;
+
+  renderActivity('admin-activity', null);
+  renderAdminFarmers();
+  renderAdminVendors();
+  renderAdminListings();
+}
+
+function renderAdminFarmers(){
+  const table = document.getElementById('admin-farmers-table');
+  const rows = farmersDir.map((f,i)=>`<tr>
+    <td>${f.name}</td>
+    <td>${f.mobile}</td>
+    <td>${f.village}</td>
+    <td>${f.listings}</td>
+    <td>${statusBadge(f.status)}</td>
+    <td>${f.status==='pending'
+      ? `<button class="btn btn-primary btn-sm" onclick="verifyFarmer(${i})">सत्यापित करें</button>`
+      : `<button class="btn btn-danger btn-sm" onclick="suspendFarmer(${i})">रोकें</button>`}</td>
+  </tr>`).join('');
+  table.innerHTML = `<thead><tr><th>नाम</th><th>मोबाइल</th><th>गाँव</th><th>नीलामियाँ</th><th>स्थिति</th><th>कार्रवाई</th></tr></thead><tbody>${rows}</tbody>`;
+}
+
+function verifyFarmer(i){ farmersDir[i].status='verified'; toast(farmersDir[i].name+' सत्यापित हुआ।'); renderAdminFarmers(); }
+function suspendFarmer(i){ farmersDir[i].status='pending'; toast(farmersDir[i].name+' को जाँच के लिए रोका गया।'); renderAdminFarmers(); }
+
+function renderAdminVendors(){
+  const table = document.getElementById('admin-vendors-table');
+  const rows = vendorsDir.map((v,i)=>`<tr>
+    <td>${v.name}</td>
+    <td>${v.contact}</td>
+    <td>${v.mobile}</td>
+    <td>${v.bids}</td>
+    <td>${statusBadge(v.status)}</td>
+    <td>${v.status==='pending'
+      ? `<button class="btn btn-primary btn-sm" onclick="verifyVendor(${i})">सत्यापित करें</button>`
+      : `<button class="btn btn-danger btn-sm" onclick="suspendVendor(${i})">रोकें</button>`}</td>
+  </tr>`).join('');
+  table.innerHTML = `<thead><tr><th>फर्म</th><th>संपर्क</th><th>मोबाइल</th><th>लगाई बोलियाँ</th><th>स्थिति</th><th>कार्रवाई</th></tr></thead><tbody>${rows}</tbody>`;
+}
+
+function verifyVendor(i){ vendorsDir[i].status='verified'; toast(vendorsDir[i].name+' सत्यापित हुआ।'); renderAdminVendors(); }
+function suspendVendor(i){ vendorsDir[i].status='pending'; toast(vendorsDir[i].name+' को जाँच के लिए रोका गया।'); renderAdminVendors(); }
+
+function renderAdminListings(){
+  const table = document.getElementById('admin-listings-table');
+  const rows = listings.map(l=>{
+    const count = bids.filter(b=>b.listingId===l.id).length;
+    return `<tr>
+      <td>${l.variety}</td>
+      <td>${l.farmer}</td>
+      <td>${l.qty} टन</td>
+      <td>${money(l.minPrice)}/टन</td>
+      <td>${count}</td>
+      <td>${statusBadge(l.status)}</td>
+      <td>${l.status==='active' ? `<button class="btn btn-danger btn-sm" onclick="flagListing(${l.id})">हटाएँ</button>` : '—'}</td>
+    </tr>`;
+  }).join('');
+  table.innerHTML = `<thead><tr><th>किस्म</th><th>किसान</th><th>मात्रा</th><th>न्यूनतम कीमत</th><th>बोलियाँ</th><th>स्थिति</th><th>कार्रवाई</th></tr></thead><tbody>${rows}</tbody>`;
+}
+
+function flagListing(id){
+  const l = listings.find(x=>x.id===id);
+  l.status='closed';
+  toast('नीलामी हटा दी गई।');
+  renderAllAdmin();
+}
+
+/* ============================================================
+   शुरुआत
+   ============================================================ */
+setAuthRole('farmer');
+renderAllFarmer();
+renderAllVendor();
+renderAllAdmin();
+</script>
+</body>
+</html>
